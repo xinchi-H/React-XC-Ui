@@ -1,4 +1,5 @@
 const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
   mode: 'production',
   entry: {
@@ -6,7 +7,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'dist/lib'),
-    library: 'XcUi',
+    library: 'xcUi',
     libraryTarget: 'umd',
   },
   module: {
@@ -17,4 +18,11 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: 'xc-Ui',
+      template: 'index.html',
+    }),
+  ],
+
 }
