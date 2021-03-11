@@ -12,7 +12,7 @@ module.exports = {
   moduleDirectories: ['node_modules'],
   globals: {
     'ts-jest': {
-      tsConfig: 'tsconfig.test.json',
+      tsconfig: 'tsconfig.test.json',
     },
   },
   moduleNameMapper: {
