@@ -1,0 +1,38 @@
+.xc-dialog {
+  position: fixed;
+  background: white;
+  width: 10em;
+  height: 10em;
+  border-radius: 4px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+
+  &-mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: fade-out(black, 0.5);
+  }
+
+  &-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1px;
+    border: none;
+    outline:none;
+    cursor: pointer;
+    background-color: transparent;
+    transform: rotate(0deg) scale(1);
+    transform-origin: 50% 50%;
+    transition: all cubic-bezier(0.22, 0.58, 0.12, 0.98) 0.4s;
+    
+    &:hover {
+      transform: rotate(180deg) scale(1.1);
+    }
+    
+  }
+}

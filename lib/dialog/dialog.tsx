@@ -1,13 +1,38 @@
-import React from "react";
+import Icon from "../icon/icon";
+import React, { Fragment } from "react";
+import './dialog.scss';
+import { scopedClassMaker } from "../classes";
 
 interface Props {
   visible: boolean;
 }
 
+const scopedClass = scopedClassMaker('xc-dialog');
+const sc = scopedClass;
+
 const Dialog: React.FunctionComponent<Props> = (props) => {
   return (
     props.visible ?
-    <div>dialog</div> : null
+    <Fragment>
+      <div className={sc('mask')}/>
+      <div className={sc()}>
+        <button className={sc('close')}>
+          <Icon name="close" />
+        </button>
+        <header className={sc('header')}>
+          提示
+        </header>
+        <main className={sc('main')}>
+          { props.children }
+        </main>
+        <footer className={sc('footer')}>
+          <button>ok</button>
+          <button>cancel</button>
+        </footer>
+      </div> 
+    </Fragment>
+    :
+    null
   )
 }
 
