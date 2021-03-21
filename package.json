@@ -2,7 +2,7 @@
   "name": "xcui888",
   "version": "0.0.4",
   "description": "",
-  "main": "dist/lib/index.js",
+  "main": "dist/lib/index",
   "types": "dist/lib/index",
   "files": [
     "/dist/**/*"
