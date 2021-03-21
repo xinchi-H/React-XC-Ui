@@ -1,4 +1,4 @@
-import Icon from "../icon/icon";
+import {Icon} from '../index';
 import React, { Fragment } from "react";
 import './dialog.scss';
 import { scopedClassMaker } from "../classes";
@@ -16,9 +16,9 @@ const Dialog: React.FunctionComponent<Props> = (props) => {
     <Fragment>
       <div className={sc('mask')}/>
       <div className={sc()}>
-        <button className={sc('close')}>
+        <div className={sc('close')}>
           <Icon name="close" />
-        </button>
+        </div>
         <header className={sc('header')}>
           提示
         </header>

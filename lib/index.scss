@@ -1,0 +1,16 @@
+[class^=xc-] {
+  box-sizing: border-box;
+  &::after,
+  &::before {
+    box-sizing: border-box;
+  }
+}
+
+button {
+  box-sizing: border-box;
+  height: 32px;
+  border-radius: 4px;
+  &:not(:last-child) {
+   margin-right: 8px; 
+  }
+}

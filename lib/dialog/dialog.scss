@@ -1,8 +1,9 @@
+@import '../helper';
+
 .xc-dialog {
   position: fixed;
   background: white;
-  width: 10em;
-  height: 10em;
+  min-width: 20em;
   border-radius: 4px;
   top: 50%;
   left: 50%;
@@ -18,21 +19,40 @@
   }
 
   &-close {
+    position: absolute;
+    top: 8px;
+    right: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1px;
-    border: none;
-    outline:none;
+    width: 2em;
+    height: 2em;
     cursor: pointer;
-    background-color: transparent;
+    border-radius: 50%;
+    background: transparent;
     transform: rotate(0deg) scale(1);
-    transform-origin: 50% 50%;
     transition: all cubic-bezier(0.22, 0.58, 0.12, 0.98) 0.4s;
     
     &:hover {
-      transform: rotate(180deg) scale(1.1);
+      transform:  rotate(180deg) scale(1.1);
     }
-    
+  }
+
+  &-header {
+    font-size: 22px;
+    padding: 8px 16px;
+    border-bottom: 1px solid grey;
+  }
+
+  &-main {
+    padding: 8px 16px;
+    min-height: 6em;
+  }
+
+  &-footer {
+    padding: 8px 16px;
+    border-top: 1px solid grey;
+    display: flex;
+    justify-content: flex-end;
   }
 }
