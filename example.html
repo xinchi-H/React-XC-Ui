@@ -6,6 +6,14 @@
     <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
 <body>
-<div id="root"></div>
+    <style>
+        .xc-dialog {
+            z-index: 9999;
+        }
+        .xc-dialog-mask {
+            z-index: 9998;
+        }
+    </style>
+    <div id="root"></div>
 </body>
 </html>

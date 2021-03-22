@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import Dialog from "./dialog";
+import Dialog,{alert} from "./dialog";
 
 export default function () {
 
@@ -41,6 +41,10 @@ export default function () {
           >
           <strong>hi</strong>
         </Dialog>
+      </div>
+      <div>
+        <h1>example 3</h1>
+        <button onClick={() => {alert('1')}}>alert</button>
       </div>
     </div>
   )
