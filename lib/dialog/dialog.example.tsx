@@ -55,11 +55,11 @@ export default function () {
       <hr/>
       <div>
         <h1>example 3</h1>
-        <button onClick={() => {alert('1')}}>alert</button>
+        <button onClick={() => {alert(<h1>hi</h1>)}}>alert</button>
         <button
           onClick={
             () => {confirm(
-              '1',
+              <h1>hi</h1>,
               ()=>{console.log('点击了yes')},
               ()=>{console.log('点击了no')},
             )}
