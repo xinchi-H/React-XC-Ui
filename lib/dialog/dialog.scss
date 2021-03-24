@@ -2,13 +2,14 @@
 
 .xc-dialog {
   position: fixed;
-  top: 50%;
+  top: 30%;
   left: 50%;
   transform: translate(-50%,-50%);
-  min-width: 20em;
+  min-width: 25em;
   z-index: 2;
   border-radius: 4px;
   background: white;
+  overflow: hidden;
 
   &-mask {
     position: fixed;
@@ -22,16 +23,18 @@
 
   &-close {
     position: absolute;
-    top: 8px;
-    right: 10px;
+    top: 0;
+    right: 0;
+    width: 56px;
+    height: 56px;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 2em;
-    height: 2em;
     cursor: pointer;
+    font-size: 18px;
     border-radius: 50%;
     background: transparent;
+    color: rgba(0,0,0,.45);
     transform: rotate(0deg) scale(1);
     transition: all cubic-bezier(0.22, 0.58, 0.12, 0.98) 0.4s;
     
@@ -41,19 +44,38 @@
   }
 
   &-header {
-    font-size: 22px;
-    padding: 8px 16px;
-    border-bottom: 1px solid grey;
+    position: relative;
+    padding: 16px 24px;
+    max-width: 23em;
+    line-height: 22px;
+    font-size: 16px;
+    font-weight: 500;
+    word-wrap: break-word;
+    color: rgba(0,0,0,.85);
+
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 200%;
+      border-bottom: 1px solid #f0f0f0;
+    }
   }
 
   &-main {
-    padding: 8px 16px;
+    padding: 24px;
     min-height: 6em;
+    font-size: 14px;
+    font-weight: 400;
+    word-wrap: break-word;
+    color: rgba(0, 0, 0, 0.85);
   }
 
   &-footer {
     padding: 8px 16px;
-    border-top: 1px solid grey;
+    border-top: 1px solid #f0f0f0;
     display: flex;
     justify-content: flex-end;
   }
