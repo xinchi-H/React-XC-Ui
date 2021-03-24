@@ -8,7 +8,7 @@ export default function () {
   const [y, setY] = useState(false);
   
   const openModal = () => {
-    const close = modal(
+    const close = modal('提示',
       <h1>
         你好
         <button onClick={()=>close()}>close</button>  
@@ -30,7 +30,8 @@ export default function () {
             ] 
           }
           onClose={() => {setX(false)}}
-          >
+          header={'提示'}
+        >
           <strong>hi</strong>
         </Dialog>
       </div>
@@ -47,18 +48,19 @@ export default function () {
           }
           onClose={() => {setY(false)}}
           closeOnClickMask={true}
-          >
-          <strong>hi</strong>
+          header={'Basic Dialog'}
+        >
+          hi
         </Dialog>
       </div>
       <br/>
       <hr/>
       <div>
         <h1>example 3</h1>
-        <button onClick={() => {alert(<h1>hi</h1>)}}>alert</button>
+        <button onClick={() => {alert('提示', <h1>hi</h1>)}}>alert</button>
         <button
           onClick={
-            () => {confirm(
+            () => {confirm('提示',
               <h1>hi</h1>,
               ()=>{console.log('点击了yes')},
               ()=>{console.log('点击了no')},

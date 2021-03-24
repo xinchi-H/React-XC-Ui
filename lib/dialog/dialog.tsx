@@ -9,6 +9,7 @@ interface Props {
   buttons?: Array<ReactElement>;
   onClose: React.MouseEventHandler;
   closeOnClickMask?: boolean;
+  header: string;
 }
 
 const scopedClass = scopedClassMaker('xc-dialog');
@@ -26,7 +27,7 @@ const Dialog: React.FunctionComponent<Props> = (props) => {
     }
   }
   
-  const x = props.visible ?
+  const result = props.visible ?
     <Fragment>
     <div className={sc('mask')} onClick={onClickMask}/>
     <div className={sc()}>
@@ -34,7 +35,7 @@ const Dialog: React.FunctionComponent<Props> = (props) => {
         <Icon name="close" />
       </div>
       <header className={sc('header')}>
-        提示
+        { props.header }
       </header>
       <main className={sc('main')}>
         { props.children }
@@ -54,7 +55,7 @@ const Dialog: React.FunctionComponent<Props> = (props) => {
     null
 
   return (
-    ReactDOM.createPortal(x, document.body)
+    ReactDOM.createPortal(result, document.body)
   )
 }
 
@@ -62,7 +63,7 @@ Dialog.defaultProps = {
   closeOnClickMask: false
 }
 
-const modal = (content: ReactNode, buttons?: Array<ReactElement>, afterClose?: () => void) => {
+const modal = (header: string,content: ReactNode, buttons?: Array<ReactElement>, afterClose?: () => void) => {
   const close = () => {
     ReactDOM.render(React.cloneElement(component, {visible: false}), div);
     ReactDOM.unmountComponentAtNode(div);
@@ -77,6 +78,7 @@ const modal = (content: ReactNode, buttons?: Array<ReactElement>, afterClose?: (
         close();
         afterClose && afterClose();
       }}
+      header={header}
     >
       {content}
     </Dialog>
@@ -89,12 +91,12 @@ const modal = (content: ReactNode, buttons?: Array<ReactElement>, afterClose?: (
   return close;
 }
 
-const alert = (content: ReactNode) => {
+const alert = (header: string,content: ReactNode) => {
   const button = <button onClick={() => close()}>OK</button>;
-  const close = modal(content, [button]);
+  const close = modal(header, content, [button]);
 }
 
-const confirm = (content: ReactNode, yes?: ()=>void, no?: ()=>void) => {
+const confirm = (header: string, content: ReactNode, yes?: ()=>void, no?: ()=>void) => {
   const onYes = () => {
     close();
     yes && yes();
@@ -110,7 +112,7 @@ const confirm = (content: ReactNode, yes?: ()=>void, no?: ()=>void) => {
     <button onClick={onNo}>no</button>,
   ]
 
-  const close = modal(content, buttons, no)
+  const close = modal(header, content, buttons, no)
 };
 
 export {alert, confirm, modal};
