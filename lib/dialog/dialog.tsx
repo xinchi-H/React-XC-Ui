@@ -2,7 +2,7 @@ import {Icon} from '../index';
 import React, { Fragment, ReactElement, ReactNode } from "react";
 import ReactDOM from 'react-dom';
 import './dialog.scss';
-import { scopedClassMaker } from "../classes";
+import { scopedClassMaker } from "../scoped-class-maker";
 
 interface Props {
   visible: boolean;
@@ -12,8 +12,7 @@ interface Props {
   header: string;
 }
 
-const scopedClass = scopedClassMaker('xc-dialog');
-const sc = scopedClass;
+const sc = scopedClassMaker('xc-dialog');
 
 const Dialog: React.FunctionComponent<Props> = (props) => {
 
