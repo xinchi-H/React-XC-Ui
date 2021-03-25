@@ -1,6 +1,5 @@
 import React from 'react';
 import { scopedClassMaker } from '../scoped-class-maker';
-import classes from '../helpers/classes'
 
 const sc = scopedClassMaker('xc-layout')
 
@@ -13,7 +12,7 @@ const Layout: React.FunctionComponent<Props> = ({
   ...restProps
 }) => {
   return (
-    <div className={classes(sc(), className)} {...restProps}>
+    <div className={sc('', {extra: className})} {...restProps}>
       { children }
     </div>
   )

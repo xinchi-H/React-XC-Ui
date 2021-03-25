@@ -1,11 +1,12 @@
 import React from 'react';
 import './importIcons';
 import './icon.scss';
-import classes from '../helpers/classes'
+import { scopedClassMaker } from "../scoped-class-maker";
 
 interface IconProps extends React.SVGAttributes<SVGElement> {
   name: string;
 }
+const sc = scopedClassMaker('xc-icon');
 
 const Icon: React.FunctionComponent<IconProps> = ({
   className,
@@ -13,7 +14,7 @@ const Icon: React.FunctionComponent<IconProps> = ({
   ...restProps
 }) => {
     return (
-      <svg className={classes('xc-ui', className)}
+      <svg className={sc('', {extra: className})}
            { ...restProps }
       >
         <use xlinkHref={`#${name}`} />
