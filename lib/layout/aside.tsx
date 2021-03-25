@@ -1,8 +1,17 @@
 import React from 'react';
+import { scopedClassMaker } from '../scoped-class-maker';
 
-const Aside: React.FunctionComponent = () => {
+const sc = scopedClassMaker('xc-layout-aside')
+
+interface Props extends React.HTMLAttributes<HTMLElement> {
+}
+
+const Aside: React.FunctionComponent<Props> = ({
+  className,
+  ...restProps
+}) => {
   return (
-    <div>aside</div>
+    <div className={sc('', {extra: className})} {...restProps}>aside</div>
   )
 };
 

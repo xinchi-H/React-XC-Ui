@@ -3,9 +3,15 @@ import { scopedClassMaker } from '../scoped-class-maker';
 
 const sc = scopedClassMaker('xc-layout-footer')
 
-const Footer: React.FunctionComponent = () => {
+interface Props extends React.HTMLAttributes<HTMLElement> {
+}
+
+const Footer: React.FunctionComponent<Props> = ({
+  className,
+  ...restProps
+}) => {
   return (
-    <div className={sc()}>footer</div>
+    <div className={sc('', {extra: className})} {...restProps}>footer</div>
   )
 };
 

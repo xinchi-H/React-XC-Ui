@@ -3,9 +3,15 @@ import { scopedClassMaker } from '../scoped-class-maker';
 
 const sc = scopedClassMaker('xc-layout-content')
 
-const Content: React.FunctionComponent = () => {
+interface Props extends React.HTMLAttributes<HTMLElement> {
+}
+
+const Content: React.FunctionComponent<Props> = ({
+  className,
+  ...restProps
+}) => {
   return (
-    <div className={sc()}>content</div>
+    <div className={sc('', {extra: className})} {...restProps}>content</div>
   )
 };
 

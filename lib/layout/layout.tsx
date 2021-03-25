@@ -1,4 +1,5 @@
 import React from 'react';
+import './layout.scss';
 import { scopedClassMaker } from '../scoped-class-maker';
 
 const sc = scopedClassMaker('xc-layout')
