@@ -14,14 +14,11 @@ const Layout: React.FunctionComponent<Props> = ({
   children,
   ...restProps
 }) => {
-  let hasAside = false;
-  if ((children as Array<ReactElement>).length) {
-    (children as Array<ReactElement>).map(node => {
-      if (node.type === Aside) {
-        hasAside = true;
-      }
-    })
-  }
+  
+  const childrenAsArr = (children as Array<ReactElement>)
+  const hasAside = childrenAsArr.length &&
+    childrenAsArr.reduce((result, node) => result || node.type === Aside, false);
+
   return (
     <div className={sc('', {extra: [className, hasAside && 'hasAside'].join(' ')})} {...restProps}>
       { children }
