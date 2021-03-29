@@ -4,6 +4,13 @@
   border: 1px solid sandybrown;
   display: flex;
   flex-direction: column;
+  
+  &.hasAside {
+    flex-direction: row;
+    .xc-layout {
+      flex-direction: column;
+    }
+  } 
 
   &-content {
     flex-grow: 1;
