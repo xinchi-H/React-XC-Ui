@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import './layout.scss';
-import { scopedClassMaker } from '../scoped-class-maker';
+import { scopedClassMaker } from '../helpers/classes';
 import Aside from './aside';
 
 const sc = scopedClassMaker('xc-layout')
@@ -16,11 +16,11 @@ const Layout: React.FunctionComponent<Props> = ({
 }) => {
   
   const childrenAsArr = (children as Array<ReactElement>)
-  const hasAside = childrenAsArr.length &&
+  const hasAside = 'length' in childrenAsArr &&
     childrenAsArr.reduce((result, node) => result || node.type === Aside, false);
 
   return (
-    <div className={sc('', {extra: [className, hasAside && 'hasAside'].join(' ')})} {...restProps}>
+    <div className={sc({'': true, hasAside}, {extra: className})} {...restProps}>
       { children }
     </div>
   )

@@ -2,7 +2,7 @@
 
 exports[`icon tests 是个svg 1`] = `
 <svg
-  className="xc-ui"
+  className="xc-icon"
 >
   <use
     xlinkHref="#wechat"

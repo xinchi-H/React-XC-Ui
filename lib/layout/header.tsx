@@ -1,5 +1,5 @@
 import React from 'react';
-import { scopedClassMaker } from '../scoped-class-maker';
+import { scopedClassMaker } from '../helpers/classes';
 
 const sc = scopedClassMaker('xc-layout-header')
 
