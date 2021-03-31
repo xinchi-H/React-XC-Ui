@@ -8,10 +8,11 @@ interface Props extends React.HTMLAttributes<HTMLElement> {
 
 const Header: React.FunctionComponent<Props> = ({
   className,
+  children,
   ...restProps
 }) => {
   return (
-    <div className={sc('', {extra: className})} {...restProps}>header</div>
+    <div className={sc('', {extra: className})} {...restProps}>{ children }</div>
   )
 };
 

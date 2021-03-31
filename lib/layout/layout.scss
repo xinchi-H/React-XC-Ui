@@ -1,25 +1,22 @@
 @import '../helper';
 
 .xc-layout {
-  border: 1px solid sandybrown;
   display: flex;
   flex-direction: column;
-  
-  &.hasAside {
+
+  &-content {
+    flex-grow: 1;
+  }
+
+  & &{
+    flex-grow: 1;
+    flex-direction: row;
+  }
+
+  &-hasAside {
     flex-direction: row;
     .xc-layout {
       flex-direction: column;
     }
   } 
-
-  &-content {
-    flex-grow: 1;
-    border: 1px solid skyblue;
-  }
-
-  & &{
-    flex-grow: 1;
-    border: 1px solid tomato;
-    flex-direction: row;
-  }
 }

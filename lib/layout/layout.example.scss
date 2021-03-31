@@ -1,0 +1,20 @@
+.x {
+  height: 40px;
+  margin: 4px 0;
+  color: white;
+  background: #4285f4;
+}
+.y {
+  margin: 4px 0;
+  color: white;
+  background: lighten(#4285f4, 5%);
+}
+.z {
+  width: 100px;
+  margin: 4px 0;
+  color: white;
+  background: #34a853;
+}
+.z + .y, .y + .z, .z + .xc-layout{
+  margin-left: 8px;
+}
