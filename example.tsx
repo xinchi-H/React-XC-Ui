@@ -6,12 +6,15 @@ import ButtonExample from './lib/button.example';
 import DialogExample from './lib/dialog/dialog.example';
 import LayoutExample from './lib/layout/layout.example';
 import {Layout, Header,  Aside, Content, Footer} from './lib/layout/layout';
+import './example.scss';
+const logo = require('./logo.png')
 
 ReactDOM.render((
   <Router>
     <Layout className="page">
       <Header>
         <div className="logo">
+          <img src={logo} alt=""/>
           xcUI
         </div>
       </Header>
