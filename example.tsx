@@ -11,15 +11,17 @@ const logo = require('./logo.png')
 
 ReactDOM.render((
   <Router>
-    <Layout className="page">
-      <Header>
+    <Layout className="site-page">
+      <Header className="site-header">
         <div className="logo">
-          <img src={logo} alt=""/>
-          xcUI
+          <img src={logo} width="48" height="48" alt=""/>
+          <span>
+            xcUI
+          </span>
         </div>
       </Header>
       <Layout>
-        <Aside>
+        <Aside className="site-aside">
           <h2>组件</h2>
           <ul>
             <li>
@@ -44,14 +46,16 @@ ReactDOM.render((
             </li>
           </ul>
         </Aside>
-        <Content>
+        <Content className="site-main">
           <Route path="/icon" component={IconExample} />
           <Route path="/button" component={ButtonExample} />
           <Route path="/dialog" component={DialogExample} />
           <Route path="/layout" component={LayoutExample} />
         </Content>
       </Layout>
-      <Footer>footer</Footer>
+      <Footer className="site-footer">
+        &copy; xinchi-H
+      </Footer>
     </Layout>
   </Router>
 ), document.querySelector('#root'));
