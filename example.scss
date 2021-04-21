@@ -45,14 +45,23 @@ $border-color: #EEEEEE;
     font-size: 18px;
   }
   ul {
-    padding: 0 $padding;
     min-width: 12em;
 
     > li {
-      padding: 8px 0;
 
       a {
-        color: $main-color; 
+        display: block;
+        padding: 8px $padding;
+        color: #333;
+
+        &:hover {
+          color: $main-color;
+        }
+
+        &.active {
+          color: white;
+          background: $main-color;
+        }
       }
     }
   }
