@@ -1,10 +1,11 @@
 import React from 'react';
+import './button.scss'
 
 function Button() {
     return (
-        <div>
+        <button>
             按钮
-        </div>
+        </button>
     );
 }
 
