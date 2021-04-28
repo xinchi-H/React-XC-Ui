@@ -3,7 +3,7 @@ import Button from './button';
 
 const ButtonExample: React.FunctionComponent = () => {
   return (
-    <Button>xc</Button>
+    <Button type="primary" size="large">xc</Button>
   )
 }
 
