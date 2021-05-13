@@ -37,7 +37,7 @@ const Validator = (formValue: FormValue, rules: FormRules): FormErrors => {
     if (rule.minLength && !isEmpty(value) && value.length < rule.minLength) {
       addError(rule.key, '太短')
     }
-    if (rule.pattern && !(rule.pattern.test(value))) {
+    if (rule.pattern && !isEmpty(value) && !(rule.pattern.test(value))) {
       addError(rule.key, '格式不正确')
     }
   })
