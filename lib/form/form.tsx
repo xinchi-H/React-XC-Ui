@@ -1,5 +1,7 @@
 import React, { ReactFragment } from 'react';
 import Input from '../input/input';
+import './form.scss'
+import { scopedClassMaker } from '../helpers/classes';
 
 export interface FormValue {
   [k: string]: any
@@ -14,6 +16,8 @@ interface Props {
   errors: {[K: string]: string[]}
 }
 
+const sc = scopedClassMaker('xc-form')
+
 const Form: React.FunctionComponent<Props> = (props) => {
   const formData = props.value;
   const onsubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
@@ -26,18 +30,24 @@ const Form: React.FunctionComponent<Props> = (props) => {
   };
   return (
     <form onSubmit={onsubmit}>
-      {props.fields.map(f =>
-        <div key={f.name}>
-          {f.label}
-          <Input type={f.input.type} value={formData[f.name]}
-            onChange={(e) => onInputChange(f.name, e.target.value)}
-          />
-          <div>{props.errors[f.name]}</div>
+      <table>
+        {props.fields.map(f =>
+          <tr className={sc('row')} key={f.name}>
+            <td>
+              <span>{f.label}</span>
+            </td>
+            <td>
+              <Input type={f.input.type} value={formData[f.name]}
+                onChange={(e) => onInputChange(f.name, e.target.value)}
+              />
+              <div>{props.errors[f.name]}</div>
+            </td>
+          </tr>
+        )}
+        <div>
+          {props.buttons}
         </div>
-      )}
-      <div>
-        {props.buttons}
-      </div>
+      </table>
     </form>
   )
 }
