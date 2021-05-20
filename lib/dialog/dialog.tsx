@@ -1,6 +1,6 @@
-import {Icon} from '../index';
 import React, { Fragment, ReactElement, ReactNode } from "react";
 import ReactDOM from 'react-dom';
+import {Icon} from '../index';
 import './dialog.scss';
 import { scopedClassMaker } from "../helpers/classes";
 
