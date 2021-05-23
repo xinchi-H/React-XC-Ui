@@ -1,6 +1,15 @@
 .xc-form {
+  &-table {
+    border-collapse: collapse;
+  }
+
+  &-label {
+    line-height: 32px;
+  }
+
   &-td {
-    padding-bottom: 32px;
+    padding-bottom: 8px;
+    vertical-align: top;
   }
 
   &-tr:last-child &-td {
@@ -9,5 +18,11 @@
 
   &-td + &-td {
     padding-left: 16px;
+  }
+
+  &-error {
+    margin-top: 4px;
+    font-size: 0.8em;
+    color: #ff4d4f;
   }
 }
