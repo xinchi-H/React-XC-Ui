@@ -31,35 +31,37 @@ const Form: React.FunctionComponent<Props> = (props) => {
   return (
     <form onSubmit={onsubmit}>
       <table className={sc('table')}>
-        {props.fields.map(f =>
-          <tr
-            className={sc('tr')}
-            key={f.name}
-          >
+        <tbody>
+          {props.fields.map(f =>
+            <tr
+              className={sc('tr')}
+              key={f.name}
+            >
+              <td className={sc('td')}>
+                <span className={sc('label')}>{f.label}</span>
+              </td>
+              <td className={sc('td')}>
+                <Input
+                  type={f.input.type}
+                  value={formData[f.name]}
+                  onChange={(e) => onInputChange(f.name, e.target.value)}
+                />
+                <div className={sc('error')}>
+                  {
+                    props.errors[f.name] ?
+                    props.errors[f.name].join('，') : <span>&nbsp;</span>
+                  }
+                </div>
+              </td>
+            </tr>
+          )}
+          <tr className={sc('tr')}>
+            <td  className={sc('td')}/>
             <td className={sc('td')}>
-              <span className={sc('label')}>{f.label}</span>
-            </td>
-            <td className={sc('td')}>
-              <Input
-                type={f.input.type}
-                value={formData[f.name]}
-                onChange={(e) => onInputChange(f.name, e.target.value)}
-              />
-              <div className={sc('error')}>
-                {
-                  props.errors[f.name] ?
-                  props.errors[f.name].join('，') : <span>&nbsp;</span>
-                }
-              </div>
+              {props.buttons}
             </td>
           </tr>
-        )}
-        <tr className={sc('tr')}>
-          <td  className={sc('td')}/>
-          <td className={sc('td')}>
-            {props.buttons}
-          </td>
-        </tr>
+        </tbody>
       </table>
     </form>
   )
