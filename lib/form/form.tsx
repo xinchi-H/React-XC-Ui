@@ -13,7 +13,8 @@ interface Props {
   buttons: ReactFragment;
   onSubmit: React.FormEventHandler<HTMLFormElement>;
   onChange: (value: FormValue) => void;
-  errors: {[K: string]: string[]}
+  errors: {[K: string]: string[]};
+  transformError?: (message: string) => string;
 }
 
 const sc = scopedClassMaker('xc-form')
@@ -28,6 +29,16 @@ const Form: React.FunctionComponent<Props> = (props) => {
     const newValue = {...formData, [name]: value}
     props.onChange(newValue);
   };
+  const transformError = (message: string) => {
+    const map: any = {
+      required: '必填',
+      minLength: '太短',
+      maxLength: '太长',
+    };
+    return props.transformError && props.transformError(message) || map[message]
+      || '未知错误';
+  };
+
   return (
     <form onSubmit={onsubmit}>
       <table className={sc('table')}>
@@ -49,7 +60,7 @@ const Form: React.FunctionComponent<Props> = (props) => {
                 <div className={sc('error')}>
                   {
                     props.errors[f.name] ?
-                    props.errors[f.name].join('，') : <span>&nbsp;</span>
+                    props.errors[f.name].map(transformError).join('，') : <span>&nbsp;</span>
                   }
                 </div>
               </td>
