@@ -22,7 +22,7 @@ export function noError(errors: any) {
 type OneError = string | Promise<string>; 
 
 const Validator = (formValue: FormValue, rules: FormRules, callback: (errors: any) => void): void => {
-  let errors: any = {};
+  let errors: {[key: string]: OneError[]} = {};
   const addError = (key: string, error: OneError) => {
     if (errors[key] === undefined) {
       errors[key] = []
@@ -48,23 +48,27 @@ const Validator = (formValue: FormValue, rules: FormRules, callback: (errors: an
       addError(rule.key, 'pattern')
     }
   });
-  const flattenErrors = flat(Object.keys(errors).map(key => errors[key].map((promise: string) => [key, promise])));
-  const newPromises = flattenErrors.map(([key, promiseOrString]) => (
-    promiseOrString instanceof Promise ? promiseOrString : Promise.reject(promiseOrString))
-    .then(() => [key, undefined], (reason: string) => [key, reason]));
+  const flattenErrors = flat(Object.keys(errors).map(
+    key => errors[key].map<[string, OneError]>((error) => [key, error]))
+  );
+  const newPromises = flattenErrors.map(
+    ([key, promiseOrString]) => 
+      (promiseOrString instanceof Promise ? promiseOrString : Promise.reject(promiseOrString))
+        .then<[string, undefined], [string, string]>(() => [key, undefined], (reason: string) => [key, reason])
+  );
   Promise.all(newPromises).then(results => {
-    callback(zip(results.filter(item => item[1])));
+    callback(zip(results.filter<[string, string]>(item => item[1])));
   })
 };
 export default Validator;
 
-function flat(array: Array<any>) {
-  const result = [];
+function flat<T>(array: Array<T | T[]>) {
+  const result: T[] = [];
   for (let i = 0; i < array.length; i += 1) {
     if (array[i] instanceof Array) {
-      result.push(...array[i]);
+      result.push(...array[i] as T[]);
     }  else {
-      result.push(array[i]);
+      result.push(array[i] as T);
     }
   }
   return result;
