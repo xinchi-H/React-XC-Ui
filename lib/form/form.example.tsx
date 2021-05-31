@@ -26,7 +26,7 @@ const FormExample: React.FunctionComponent = () => {
   const [errors, setErrors] = useState({});
   const validator = (username: string) => {
     return new Promise<string>((resolve, reject) => {
-      checkUserName(username, resolve, () => reject('unique'));
+      checkUserName(username, () => resolve('unique'), () => reject('unique'));
     });
   }
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -39,11 +39,10 @@ const FormExample: React.FunctionComponent = () => {
     ];
     Validator(formData, rules, (errors) => {
       if(noError(errors)) {
-        // 没错
+        setErrors(errors)
         return
       } else {
         setErrors(errors)
-        console.log('errors', errors);
       }
     });
   };

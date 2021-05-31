@@ -48,6 +48,9 @@ const Validator = (formValue: FormValue, rules: FormRules, callback: (errors: an
       addError(rule.key, 'pattern')
     }
   });
+  function hasError(item: [string, undefined] | [string, string]): item is [string,string] {
+    return typeof item[1] === 'string';
+  }
   const flattenErrors = flat(Object.keys(errors).map(
     key => errors[key].map<[string, OneError]>((error) => [key, error]))
   );
@@ -55,9 +58,9 @@ const Validator = (formValue: FormValue, rules: FormRules, callback: (errors: an
     ([key, promiseOrString]) => 
       (promiseOrString instanceof Promise ? promiseOrString : Promise.reject(promiseOrString))
         .then<[string, undefined], [string, string]>(() => [key, undefined], (reason: string) => [key, reason])
-  );
+  );  
   Promise.all(newPromises).then(results => {
-    callback(zip(results.filter<[string, string]>(item => item[1])));
+    callback(zip(results.filter<[string, string]>(hasError)));
   })
 };
 export default Validator;
