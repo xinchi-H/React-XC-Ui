@@ -13,7 +13,7 @@ const FormExample: React.FunctionComponent = () => {
       } else {
         succeed();
       }
-    }, 2000);
+    }, 500);
   };
   const [formData,setFormData] = useState<FormValue>({
     username: '',
@@ -48,7 +48,8 @@ const FormExample: React.FunctionComponent = () => {
   };
   const transformError = (message: string) => {
     const map:any = {
-      unique: '用户名已存在'
+      unique: '用户名已存在',
+      pattern: '格式不正确',
     }
     return map[message];
   }
