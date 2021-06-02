@@ -1,0 +1,13 @@
+.xc-scroll {
+  position: relative;
+  overflow: hidden;
+
+  &-inner {
+    overflow: auto;
+    position: absolute;
+    top: 0;
+    right: -16px;
+    bottom: 0;
+    left: 0;    
+  }
+}
