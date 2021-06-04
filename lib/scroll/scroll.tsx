@@ -11,8 +11,15 @@ const sc = scopedClassMaker('xc-scroll');
 const Scroll: React.FunctionComponent<Props> = (props) => {
   const {children, ...restProps} = props;
   const [barHeight, setBarHeight] = useState(0);
-  const onScroll: UIEventHandler = (e) => {};
+  const [barTop, setBarTop] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const onScroll: UIEventHandler = (e) => {
+    const { current } = containerRef;
+    const scrollHeight = current!.scrollHeight;
+    const viewHeight = current!.getBoundingClientRect().height;
+    const scrollTop =  current!.scrollTop;
+    setBarTop(scrollTop * viewHeight / scrollHeight);
+  };
   useEffect(() => {
     const scrollHeight = containerRef.current!.scrollHeight;
     const viewHeight = containerRef.current!.getBoundingClientRect().height;
@@ -29,7 +36,7 @@ const Scroll: React.FunctionComponent<Props> = (props) => {
         {children}
       </div>
       <div className={sc('track')}>
-        <div className={sc('bar')} style={{height: barHeight}} />
+        <div className={sc('bar')} style={{height: barHeight, transform: `translateY(${barTop}px)`}} />
       </div>
     </div>
   )
