@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {HTMLAttributes, UIEventHandler, useEffect, useRef, useState} from 'react';
+import {HTMLAttributes, MouseEventHandler, UIEventHandler, useEffect, useRef, useState} from 'react';
 import { scopedClassMaker } from '../helpers/classes';
 import './scroll.scss'
 import scrollbarWidth from './scrollbar-width';
@@ -11,7 +11,16 @@ const sc = scopedClassMaker('xc-scroll');
 const Scroll: React.FunctionComponent<Props> = (props) => {
   const {children, ...restProps} = props;
   const [barHeight, setBarHeight] = useState(0);
-  const [barTop, setBarTop] = useState(0);
+  const [barTop, _setBarTop] = useState(0);
+  const setBarTop = (number: number) => {
+    if(number < 0) {return;}
+    const { current } = containerRef;
+    const scrollHeight = current!.scrollHeight;
+    const viewHeight = current!.getBoundingClientRect().height;
+    const maxBarTop = (scrollHeight - viewHeight) * viewHeight / scrollHeight;
+    if(number > maxBarTop) {return};
+    _setBarTop(number);
+  };
   const containerRef = useRef<HTMLDivElement>(null);
   const onScroll: UIEventHandler = (e) => {
     const { current } = containerRef;
@@ -25,8 +34,40 @@ const Scroll: React.FunctionComponent<Props> = (props) => {
     const viewHeight = containerRef.current!.getBoundingClientRect().height;
     setBarHeight(viewHeight * viewHeight / scrollHeight);
   }, []);
+  const draggingRef = useRef(false);
+  const firstYRef = useRef(0);
+  const firstBarTopRef = useRef(0);
+  const onMouseDownBar: MouseEventHandler = (e) => {
+    draggingRef.current = true;
+    console.log('start');
+    firstYRef.current = e.clientY;
+    firstBarTopRef.current = barTop
+  };
+  const onMouseMoveBar = (e: MouseEvent) => {
+    if(draggingRef.current) {
+      console.log('移动bar');
+      const delta = e.clientY - firstYRef.current;
+      console.log(delta);
+      setBarTop(firstBarTopRef.current + delta);
+    }
+  };
+  const onMouseUpBar = () => {
+    draggingRef.current = false;
+    console.log('end');
+  };
+  useEffect(() => {
+    document.addEventListener('mousemove', onMouseMoveBar);
+    document.addEventListener('mouseup', onMouseUpBar);
+    return () => {
+      document.removeEventListener('mousemove', onMouseMoveBar);
+      document.removeEventListener('mouseup', onMouseUpBar);
+    }
+  }, [])
   return (
-    <div className={sc('')} {...restProps}>
+    <div
+      className={sc('')}
+      {...restProps}
+    >
       <div
         className={sc('inner')}
         style={{right: -scrollbarWidth()}}
@@ -36,7 +77,9 @@ const Scroll: React.FunctionComponent<Props> = (props) => {
         {children}
       </div>
       <div className={sc('track')}>
-        <div className={sc('bar')} style={{height: barHeight, transform: `translateY(${barTop}px)`}} />
+        <div className={sc('bar')} style={{height: barHeight, transform: `translateY(${barTop}px)`}}
+          onMouseDown={onMouseDownBar}
+        />
       </div>
     </div>
   )
