@@ -8,9 +8,12 @@ interface Props extends HTMLAttributes<HTMLElement> {}
 
 const sc = scopedClassMaker('xc-scroll');
 
+const isTouchDevice: boolean = 'ontouchstart' in document.documentElement;
+
 const Scroll: React.FunctionComponent<Props> = (props) => {
   const {children, ...restProps} = props;
   const [barHeight, setBarHeight] = useState(0);
+  const [barVisible, setBarVisible] = useState(false);
   const [barTop, _setBarTop] = useState(0);
   const setBarTop = (number: number) => {
     if(number < 0) {return;}
@@ -23,6 +26,7 @@ const Scroll: React.FunctionComponent<Props> = (props) => {
   };
   const containerRef = useRef<HTMLDivElement>(null);
   const onScroll: UIEventHandler = (e) => {
+    setBarVisible(true);
     const { current } = containerRef;
     const scrollHeight = current!.scrollHeight;
     const viewHeight = current!.getBoundingClientRect().height;
@@ -85,11 +89,15 @@ const Scroll: React.FunctionComponent<Props> = (props) => {
       >
         {children}
       </div>
-      <div className={sc('track')}>
-        <div className={sc('bar')} style={{height: barHeight, transform: `translateY(${barTop}px)`}}
-          onMouseDown={onMouseDownBar}
-        />
-      </div>
+      {barVisible &&
+        <div className={sc('track')}>
+          <div
+            className={sc('bar')}
+            style={{height: barHeight, transform: `translateY(${barTop}px)`}}
+            onMouseDown={onMouseDownBar}
+          />
+        </div>
+      }
     </div>
   )
 }
