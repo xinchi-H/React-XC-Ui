@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {HTMLAttributes, MouseEventHandler, UIEventHandler, useEffect, useRef, useState} from 'react';
+import {HTMLAttributes, MouseEventHandler, TouchEventHandler, UIEventHandler, useEffect, useRef, useState} from 'react';
 import { scopedClassMaker } from '../helpers/classes';
 import './scroll.scss'
 import scrollbarWidth from './scrollbar-width';
@@ -83,6 +83,24 @@ const Scroll: React.FunctionComponent<Props> = (props) => {
       document.removeEventListener('selectstart', onSelect);
     }
   }, [])
+  const [translateY, setTranslateY] = useState(0);
+  const lastYRef = useRef(0);
+  const onTouchStart: TouchEventHandler = (e) => {
+    lastYRef.current = e.touches[0].clientY;
+  }
+  const onTouchMove: TouchEventHandler = (e) => {
+    console.log(e.touches[0].clientY);
+    const deltaY = e.touches[0].clientY - lastYRef.current;
+    if(deltaY > 0) {
+      setTranslateY(translateY + deltaY);
+    } else {
+
+    }
+    lastYRef.current = e.touches[0].clientY;
+  }
+  const onTouchEnd: TouchEventHandler = (e) => {
+    setTranslateY(0);
+  }
   return (
     <div
       className={sc('')}
@@ -90,9 +108,15 @@ const Scroll: React.FunctionComponent<Props> = (props) => {
     >
       <div
         className={sc('inner')}
-        style={{right: -scrollbarWidth()}}
+        style={{
+          right: -scrollbarWidth(),
+          transform: `translateY(${translateY}px)`
+        }}
         ref={containerRef}
         onScroll={onScroll}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
       >
         {children}
       </div>
