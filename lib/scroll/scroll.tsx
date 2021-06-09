@@ -8,7 +8,7 @@ interface Props extends HTMLAttributes<HTMLElement> {}
 
 const sc = scopedClassMaker('xc-scroll');
 
-const isTouchDevice: boolean = 'ontouchstart' in document.documentElement;
+// const isTouchDevice: boolean = 'ontouchstart' in document.documentElement;
 
 const Scroll: React.FunctionComponent<Props> = (props) => {
   const {children, ...restProps} = props;
@@ -21,10 +21,11 @@ const Scroll: React.FunctionComponent<Props> = (props) => {
     const scrollHeight = current!.scrollHeight;
     const viewHeight = current!.getBoundingClientRect().height;
     const maxBarTop = (scrollHeight - viewHeight) * viewHeight / scrollHeight;
-    if(number > maxBarTop) {return};
+    if(number > maxBarTop) {return}
     _setBarTop(number);
   };
   const containerRef = useRef<HTMLDivElement>(null);
+  const timerIdRef = useRef<number | null>(null);
   const onScroll: UIEventHandler = (e) => {
     setBarVisible(true);
     const { current } = containerRef;
@@ -32,6 +33,12 @@ const Scroll: React.FunctionComponent<Props> = (props) => {
     const viewHeight = current!.getBoundingClientRect().height;
     const scrollTop =  current!.scrollTop;
     setBarTop(scrollTop * viewHeight / scrollHeight);
+    if(timerIdRef.current !== null) {
+      window.clearTimeout(timerIdRef.current);
+    }
+    timerIdRef.current = window.setTimeout(() => {
+      setBarVisible(false);
+    }, 300)
   };
   useEffect(() => {
     const scrollHeight = containerRef.current!.scrollHeight;
