@@ -6,17 +6,18 @@ import './pull.svg'
 import scrollbarWidth from './scrollbar-width';
 
 interface Props extends HTMLAttributes<HTMLElement> {
-  pulled?: (number: number) => void;
+  pulled?: () => void;
 }
 
 const sc = scopedClassMaker('xc-scroll');
 
-// const isTouchDevice: boolean = 'ontouchstart' in document.documentElement;
+// 是否触屏设备，用于控制隐藏滚动条
+const isTouchDevice: boolean = 'ontouchstart' in document.documentElement;
 
 const Scroll: React.FunctionComponent<Props> = (props) => {
   const {children, ...restProps} = props;
   const [barHeight, setBarHeight] = useState(0);
-  const [barVisible, setBarVisible] = useState(false);
+  const [barVisible, setBarVisible] = useState(isTouchDevice ? false : true);
   const [barTop, _setBarTop] = useState(0);
   const setBarTop = (number: number) => {
     if(number < 0) {return;}
@@ -36,12 +37,14 @@ const Scroll: React.FunctionComponent<Props> = (props) => {
     const viewHeight = current!.getBoundingClientRect().height;
     const scrollTop =  current!.scrollTop;
     setBarTop(scrollTop * viewHeight / scrollHeight);
-    if(timerIdRef.current !== null) {
+    if(isTouchDevice && timerIdRef.current !== null) {
       window.clearTimeout(timerIdRef.current);
     }
-    timerIdRef.current = window.setTimeout(() => {
-      setBarVisible(false);
-    }, 300)
+    if(isTouchDevice) {
+      timerIdRef.current = window.setTimeout(() => {
+        setBarVisible(false);
+      }, 300)
+    }
   };
   useEffect(() => {
     const scrollHeight = containerRef.current!.scrollHeight;
@@ -53,15 +56,12 @@ const Scroll: React.FunctionComponent<Props> = (props) => {
   const firstBarTopRef = useRef(0);
   const onMouseDownBar: MouseEventHandler = (e) => {
     draggingRef.current = true;
-    console.log('start');
     firstYRef.current = e.clientY;
     firstBarTopRef.current = barTop
   };
   const onMouseMoveBar = (e: MouseEvent) => {
     if(draggingRef.current) {
-      console.log('移动bar');
       const delta = e.clientY - firstYRef.current;
-      console.log(delta);
       const newBarTop = firstBarTopRef.current + delta;
       setBarTop(newBarTop);
       const scrollHeight = containerRef.current!.scrollHeight;
@@ -71,7 +71,6 @@ const Scroll: React.FunctionComponent<Props> = (props) => {
   };
   const onMouseUpBar = () => {
     draggingRef.current = false;
-    console.log('end');
   };
   const onSelect = (e: Event) => {
     if(draggingRef.current) { e.preventDefault() }
@@ -115,7 +114,7 @@ const Scroll: React.FunctionComponent<Props> = (props) => {
   const onTouchEnd: TouchEventHandler = (e) => {
     setTranslateY(0);
     if(pulling.current) {
-      props.pulled && props.pulled(666);
+      props.pulled && props.pulled();
     }
   }
   return (
