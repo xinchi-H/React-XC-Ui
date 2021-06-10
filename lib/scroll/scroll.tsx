@@ -2,6 +2,7 @@ import * as React from 'react';
 import {HTMLAttributes, MouseEventHandler, TouchEventHandler, UIEventHandler, useEffect, useRef, useState} from 'react';
 import { scopedClassMaker } from '../helpers/classes';
 import './scroll.scss'
+import './pull.svg'
 import scrollbarWidth from './scrollbar-width';
 
 interface Props extends HTMLAttributes<HTMLElement> {}
@@ -140,6 +141,17 @@ const Scroll: React.FunctionComponent<Props> = (props) => {
           />
         </div>
       }
+      <div className={sc('pulling')} style={{height: translateY}}>
+        {translateY === 150 ? 
+          <span className={sc('pulling-text')}>
+            释放手指即可更新
+          </span>
+          :
+          <svg className={sc('pulling-icon')}>
+            <use xlinkHref="#pull" />
+          </svg>
+        }
+      </div>
     </div>
   )
 }
