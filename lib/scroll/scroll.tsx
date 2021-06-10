@@ -5,7 +5,9 @@ import './scroll.scss'
 import './pull.svg'
 import scrollbarWidth from './scrollbar-width';
 
-interface Props extends HTMLAttributes<HTMLElement> {}
+interface Props extends HTMLAttributes<HTMLElement> {
+  pulled?: (number: number) => void;
+}
 
 const sc = scopedClassMaker('xc-scroll');
 
@@ -112,6 +114,9 @@ const Scroll: React.FunctionComponent<Props> = (props) => {
   }
   const onTouchEnd: TouchEventHandler = (e) => {
     setTranslateY(0);
+    if(pulling.current) {
+      props.pulled && props.pulled(666);
+    }
   }
   return (
     <div

@@ -2,11 +2,18 @@ import * as React from 'react';
 import Scroll from './scroll';
 
 const ScrollExample: React.FunctionComponent = () => {
+  const pulled = (e: number) => {
+    console.log(e);
+    console.log('用户释放下拉更新');    
+  }
   return (
     <div>
       <div>
         <h2>第一个例子</h2>
-        <Scroll style={{height: 300,}}>
+        <Scroll
+          style={{height: 300,}}
+          pulled={pulled}
+        >
           <p>1</p>
           <p>2</p>
           <p>3</p>
