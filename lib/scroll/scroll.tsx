@@ -15,7 +15,7 @@ const sc = scopedClassMaker('xc-scroll');
 const isTouchDevice: boolean = 'ontouchstart' in document.documentElement;
 
 const Scroll: React.FunctionComponent<Props> = (props) => {
-  const {children, ...restProps} = props;
+  const {children, pulled, ...restProps} = props;
   const [barHeight, setBarHeight] = useState(0);
   const [barVisible, setBarVisible] = useState(isTouchDevice ? false : true);
   const [barTop, _setBarTop] = useState(0);
@@ -114,7 +114,7 @@ const Scroll: React.FunctionComponent<Props> = (props) => {
   const onTouchEnd: TouchEventHandler = (e) => {
     setTranslateY(0);
     if(pulling.current) {
-      props.pulled && props.pulled();
+      pulled && pulled();
     }
   }
   return (
