@@ -14,9 +14,9 @@ const Tree: React.FunctionComponent<Props> = (props) => {
   return (
     <div>
       {props.sourceData.map(item => {
-        return <div>{item.text}
-          {item.children && item.children.map(item2 => {
-            return <div>{item2.text}</div>
+        return <div key={item.value}>{item.text}
+          {item.children?.map(item2 => {
+            return <div key={item2.value}>{item2.text}</div>
           })}
         </div>
       })}

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Tree from './tree';
 
 const TreeExample: React.FunctionComponent = () => {
-  const [array, setArray] = useState([
+  const [array] = useState([
     {
       text: '一',
       value: '1',
