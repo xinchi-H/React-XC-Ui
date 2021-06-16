@@ -9,23 +9,25 @@ interface SourceDataItem {
 }
 
 interface Props {
-  sourceData: SourceDataItem[]
+  sourceData: SourceDataItem[];
+  selectedValues: string[];
 }
 
 
 const sc = scopedClassMaker('xc-tree');
 
-const x = (item: SourceDataItem, level = 1) => {
+const renderItem = (item: SourceDataItem, selectedValues: string[], level = 1) => {
   return <div key={item.value}
               className={sc({
                 ['level-' + level]: true,
                 'item': true,
               })}>
     <div className={sc('text')}>
-      {item.text}  
+      <input type="checkbox" checked={selectedValues.indexOf(item.value) >= 0} />
+      {item.text}
     </div>
     {item.children?.map(sub => {
-      return x(sub, level +1);
+      return renderItem(sub, selectedValues, level +1);
     })}
   </div>;
 }
@@ -34,7 +36,7 @@ const Tree: React.FunctionComponent<Props> = (props) => {
   return (
     <div>
       {props.sourceData.map(item => {
-        return x(item);
+        return renderItem(item, props.selectedValues);
       })}
     </div>
   )
