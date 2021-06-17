@@ -13,7 +13,6 @@ interface Props {
   selectedValues: string[];
 }
 
-
 const sc = scopedClassMaker('xc-tree');
 
 const renderItem = (item: SourceDataItem, selectedValues: string[], level = 1) => {
@@ -23,7 +22,7 @@ const renderItem = (item: SourceDataItem, selectedValues: string[], level = 1) =
                 'item': true,
               })}>
     <div className={sc('text')}>
-      <input type="checkbox" checked={selectedValues.indexOf(item.value) >= 0} />
+      <input type="checkbox" checked={selectedValues.includes(item.value)} />
       {item.text}
     </div>
     {item.children?.map(sub => {
