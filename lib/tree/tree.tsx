@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ChangeEventHandler } from 'react';
+import { ChangeEventHandler, useState } from 'react';
 import { scopedClassMaker } from '../helpers/classes';
 import './tree.scss'
 
@@ -45,6 +45,16 @@ const Tree: React.FunctionComponent<Props> = (props) => {
       }
     };
 
+    const [expanded, setExpanded] = useState(true);
+
+    const expand = () => {
+      setExpanded(true);
+    };
+
+    const collapse = () => {
+      setExpanded(false);
+    };
+
     return <div key={item.value}
                 className={sc({
                   ['level-' + level]: true,
@@ -57,8 +67,20 @@ const Tree: React.FunctionComponent<Props> = (props) => {
           checked={checked}
         />
         {item.text}
+        {item.children && 
+          <span>
+            { expanded ?
+                <span onClick={collapse}>-</span> :
+                <span onClick={expand}>+</span>
+            }
+            
+            
+          </span>
+        }
       </div>
-      {item.children?.map(sub => renderItem(sub, level +1))}
+      <div className={sc({children: true, collapsed: !expanded})}>
+        {item.children?.map(sub => renderItem(sub, level +1))}
+      </div>
     </div>;
   }
 

@@ -10,6 +10,11 @@
     }
   }
 
+  &-collapsed {
+    height: 0;
+    overflow: hidden;
+  }
+
   &-level-1 {
     .xc-tree-text {
       padding-left: 0;
