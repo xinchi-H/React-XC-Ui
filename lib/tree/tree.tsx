@@ -41,7 +41,11 @@ const Tree: React.FunctionComponent<Props> = (props) => {
           props.onChange(props.selected.filter(value => value !== item.value));
         }
       } else {
-        props.onChange(item.value);
+        if ((e.target as HTMLInputElement).checked) {
+          props.onChange(item.value);
+        } else {
+          props.onChange('');
+        }
       }
     };
 
