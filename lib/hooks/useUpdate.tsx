@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 
 const useUpdate = (dep: boolean, fn: () => void) => {
-  const [count, setCount] = useState(0);
+  const isFirst = useRef(true);
+
   useEffect(() => {
-    setCount(x => x + 1);
-  }, [ dep ]);
-  useEffect(() => {
-    if(count > 1) {
-      fn();
+    if(isFirst) {
+      isFirst.current = false;
+      return;
     }
-  }, [count]);
+    fn();
+  }, [ dep ]);
 }
 
 export default useUpdate;
