@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { ChangeEventHandler, useState } from 'react';
+import useUpdate from '../hooks/useUpdate';
 import { scopedClassMaker } from '../helpers/classes';
 
 interface Props {
@@ -41,6 +42,10 @@ const TreeItem: React.FunctionComponent<Props> = (props) => {
   const collapse = () => {
     setExpanded(false);
   };
+
+  useUpdate(expanded, () => {
+    console.log('expanded 的值为' + expanded);    
+  })
 
   return <div key={item.value}
               className={sc({
