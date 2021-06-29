@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ChangeEventHandler, useState } from 'react';
+import { ChangeEventHandler, useRef, useState } from 'react';
 import useUpdate from '../hooks/useUpdate';
 import { scopedClassMaker } from '../helpers/classes';
 
@@ -43,9 +43,43 @@ const TreeItem: React.FunctionComponent<Props> = (props) => {
     setExpanded(false);
   };
 
+  const childrenDivRef = useRef<HTMLDivElement>(null);
+
   useUpdate(expanded, () => {
-    console.log('expanded 的值为' + expanded);    
-  })
+    if (!childrenDivRef.current) {return;}
+    if (expanded) {
+      childrenDivRef.current.style.position = 'absolute';
+      childrenDivRef.current.style.opacity = '0';
+      childrenDivRef.current.style.height = 'auto';
+      const {height} = childrenDivRef.current.getBoundingClientRect();
+      childrenDivRef.current.style.position = '';
+      childrenDivRef.current.style.opacity = '';
+      childrenDivRef.current.style.height = '0px';
+      childrenDivRef.current.getBoundingClientRect();
+      childrenDivRef.current.style.height = height + 'px';
+      const afterExpand = () => {
+        if (!childrenDivRef.current) {return;}
+        childrenDivRef.current.classList.remove('xc-tree-children-gone')
+        childrenDivRef.current.style.height = '';
+        childrenDivRef.current.classList.add('xc-tree-children-present');
+        childrenDivRef.current.removeEventListener('transitionend', afterExpand);
+      };
+      childrenDivRef.current.addEventListener('transitionend', afterExpand);
+    } else {
+      const {height} = childrenDivRef.current.getBoundingClientRect();
+      childrenDivRef.current.style.height = height + 'px';
+      childrenDivRef.current.getBoundingClientRect();
+      childrenDivRef.current.style.height = '0px';
+      const afterCollapse = () => {
+        if (!childrenDivRef.current) {return;}
+        childrenDivRef.current.classList.remove('xc-tree-children-present')
+        childrenDivRef.current.style.height = '';
+        childrenDivRef.current.classList.add('xc-tree-children-gone');
+        childrenDivRef.current.removeEventListener('transitionend', afterCollapse);
+      };
+      childrenDivRef.current.addEventListener('transitionend', afterCollapse);
+    }
+  });
 
   return <div key={item.value}
               className={sc({
@@ -65,12 +99,10 @@ const TreeItem: React.FunctionComponent<Props> = (props) => {
               <span onClick={collapse}>-</span> :
               <span onClick={expand}>+</span>
           }
-          
-          
         </span>
       }
     </div>
-    <div className={sc({children: true, collapsed: !expanded})}>
+    <div ref={childrenDivRef} className={sc('children')}>
       {item.children?.map(sub =>        
         <TreeItem
           key={sub.value}

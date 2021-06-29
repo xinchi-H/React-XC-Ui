@@ -1,6 +1,6 @@
 .xc-tree {
   &-item {
-    outline: 1px solid;
+    border: 1px solid;
     line-height: 1.5;
   }
 
@@ -10,9 +10,13 @@
     }
   }
 
-  &-collapsed {
-    height: 0;
+  &-children {
     overflow: hidden;
+    transition: height 200ms;
+
+    &-gone {
+      height: 0;
+    }
   }
 
   &-level-1 {
