@@ -5,7 +5,7 @@ import './tree.scss'
 const Tree: React.FunctionComponent<TreeProps> = (props) => {
 
   return (
-    <div>
+    <div className="xc-tree">
       {props.sourceData.map(item =>
         <TreeItem
           key={item.value}

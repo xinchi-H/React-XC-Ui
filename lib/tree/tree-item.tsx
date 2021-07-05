@@ -102,16 +102,18 @@ const TreeItem: React.FunctionComponent<Props> = (props) => {
         </span>
       }
     </div>
-    <div ref={childrenDivRef} className={sc('children')}>
-      {item.children?.map(sub =>        
-        <TreeItem
-          key={sub.value}
-          treeProps={treeProps}
-          item={sub}
-          level={level + 1}
-        />
-      )}
-    </div>
+    {item.children &&
+      <div ref={childrenDivRef} className={sc({'children': true, 'children-present': true})}>
+        {item.children?.map(sub =>
+          <TreeItem
+            key={sub.value}
+            treeProps={treeProps}
+            item={sub}
+            level={level + 1}
+          />
+        )}
+      </div>
+    }
   </div>;
 }
 

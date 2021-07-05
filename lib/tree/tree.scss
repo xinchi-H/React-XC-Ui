@@ -1,13 +1,17 @@
 .xc-tree {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .04);
+
   &-item {
-    border: 1px solid;
     line-height: 1.5;
   }
 
   &-text {
-    &:hover {
-      background: yellow;
-    }
+    border-bottom: 1px solid;
+    border-bottom-color: transparent;
+    color: rgba(0, 0, 0, 0.85);
+    border-top: 1px solid rgba(0, 0, 0, 0.15);
   }
 
   &-children {
@@ -17,9 +21,17 @@
     &-gone {
       height: 0;
     }
+
+    &-present {
+      background: white;
+    }
   }
 
   &-level-1 {
+    &:first-child > .xc-tree-text {
+      border-top-color: transparent;
+    }
+
     .xc-tree-text {
       padding-left: 0;
     }
