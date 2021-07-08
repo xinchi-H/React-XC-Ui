@@ -26,20 +26,20 @@ const TreeExample: React.FunctionComponent = () => {
       ],
     }
   ])
-  // const [selectedValues, setSelectedValues] = useState(['1.1.1', '1.1.2']);
-  const [selectedValue, setSelectedValue] = useState('1');
+  const [selectedValues, setSelectedValues] = useState<string[]>([]);
+  // const [selectedValue, setSelectedValue] = useState('1');
 
   return (
     <div>
       Tree
       <h1>展示数据</h1>
-      selectedValue: {selectedValue}
+      selectedValues: {selectedValues}
       <div style={{width: 200}}>
         <Tree
           sourceData={array}
-          onChange={(selected) => setSelectedValue(selected)}
-          selected={selectedValue}
-          multiple={false}
+          selected={selectedValues}
+          onChange={(value: string[]) => setSelectedValues(value)}
+          multiple={true}
         />
       </div>
     </div>

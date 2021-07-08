@@ -17,12 +17,28 @@ const TreeItem: React.FunctionComponent<Props> = (props) => {
     treeProps.selected.includes(item.value) :
     treeProps.selected === item.value;
 
+  function collectChildrenValues(item: SourceDataItem): any {
+    return flatten(item.children?.map(i => [i.value, collectChildrenValues(i)]));
+  };
+
+  interface RecursiveArray<T> extends Array<T | RecursiveArray<T>> {};
+
+  function flatten(array?: RecursiveArray<string>): string[] {
+    if(!array) {return [];}
+    return array.reduce<string[]>((result, current) => {
+      return result.concat(typeof current === 'string' ? current : flatten(current))
+    }, []);
+  };
+
   const onChange: ChangeEventHandler = (e) => {
     if(treeProps.multiple) {
+      const childrenValues = collectChildrenValues(item);
       if((e.target as HTMLInputElement).checked) {
-        treeProps.onChange([...treeProps.selected, item.value]);
+        treeProps.onChange([...treeProps.selected, item.value, ...childrenValues]);
       } else {
-        treeProps.onChange(treeProps.selected.filter(value => value !== item.value));
+        treeProps.onChange(treeProps.selected.filter(value =>
+          value !== item.value && childrenValues.indexOf(value) === -1)
+        );
       }
     } else {
       if ((e.target as HTMLInputElement).checked) {
