@@ -6,6 +6,7 @@ import { scopedClassMaker } from '../helpers/classes';
 interface Props {
   item: SourceDataItem;
   level: number;
+  onItemChange: (values: string[]) => void;
   treeProps: TreeProps;
 }
 
@@ -13,6 +14,7 @@ const sc = scopedClassMaker('xc-tree');
 
 const TreeItem: React.FunctionComponent<Props> = (props) => {
   const {item, level, treeProps} = props;
+
   const checked = treeProps.multiple ?
     treeProps.selected.includes(item.value) :
     treeProps.selected === item.value;
@@ -34,9 +36,9 @@ const TreeItem: React.FunctionComponent<Props> = (props) => {
     if(treeProps.multiple) {
       const childrenValues = collectChildrenValues(item);
       if((e.target as HTMLInputElement).checked) {
-        treeProps.onChange([...treeProps.selected, item.value, ...childrenValues]);
+        props.onItemChange([...treeProps.selected, item.value, ...childrenValues]);
       } else {
-        treeProps.onChange(treeProps.selected.filter(value =>
+        props.onItemChange(treeProps.selected.filter(value =>
           value !== item.value && childrenValues.indexOf(value) === -1)
         );
       }
@@ -97,6 +99,34 @@ const TreeItem: React.FunctionComponent<Props> = (props) => {
     }
   });
 
+  function intersect<T>(array1: T[], array2: T[]): T[]{
+    const result: T[] = [];
+    array1.forEach((i) => {
+      if(array2.indexOf(i) >= 0) {
+        result.push(i)
+      }
+    })
+    return result;
+  }
+
+  const onItemChange = (values: string[]) => {
+    const childrenValues = collectChildrenValues(item);
+    const common = intersect(values, childrenValues);
+    if(common.length !== 0) {
+      props.onItemChange(Array.from(new Set(values.concat(item.value))));
+      if(common.length === childrenValues.length) {
+        inputRef.current!.indeterminate = false;
+      } else {
+        inputRef.current!.indeterminate = true;
+      }
+    } else {
+      props.onItemChange(values.filter(v => v !== item.value));
+      inputRef.current!.indeterminate = false;
+    }
+  };
+
+  const inputRef = useRef<HTMLInputElement>(null);
+
   return <div key={item.value}
               className={sc({
                 ['level-' + level]: true,
@@ -104,6 +134,7 @@ const TreeItem: React.FunctionComponent<Props> = (props) => {
               })}>
     <div className={sc('text')}>
       <input
+        ref={inputRef}
         type="checkbox"
         onChange={onChange}
         checked={checked}
@@ -126,6 +157,7 @@ const TreeItem: React.FunctionComponent<Props> = (props) => {
             treeProps={treeProps}
             item={sub}
             level={level + 1}
+            onItemChange={onItemChange}
           />
         )}
       </div>
