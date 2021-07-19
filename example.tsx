@@ -9,6 +9,7 @@ import {Layout, Header,  Aside, Content, Footer} from './lib/layout/layout';
 import FormExample from './lib/form/form.example';
 import ScrollExample from './lib/scroll/scroll.example';
 import TreeExample from './lib/tree/tree.example';
+import CitySelectExample from './lib/citySelect/citySelect.example';
 import './example.scss';
 const logo = require('./logo.png')
 
@@ -62,6 +63,11 @@ ReactDOM.render((
                 树形组件
               </NavLink>
             </li>
+            <li>
+              <NavLink to="/citySelect">
+                城市选择组件
+              </NavLink>
+            </li>
           </ul>
         </Aside>
         <Content className="site-main">
@@ -72,6 +78,7 @@ ReactDOM.render((
           <Route path="/form" component={FormExample} />
           <Route path="/scroll" component={ScrollExample} />
           <Route path="/tree" component={TreeExample} />
+          <Route path="/citySelect" component={CitySelectExample} />
         </Content>
       </Layout>
       <Footer className="site-footer">
