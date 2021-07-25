@@ -3,15 +3,30 @@ import { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import './citySelect.scss';
 import { scopedClassMaker } from '../helpers/classes';
+import pinyin from 'tiny-pinyin';
+
+console.log(pinyin);
 
 interface Props {
-
+  dataSource: string[]
 }
 
 const sc = scopedClassMaker('xc-city-select');
 
 const CitySelect: React.FunctionComponent<Props> = (props) => {
   const [dialogVisible, setDialogVisible] = useState(true);
+  
+  const map: {[key: string]: string[]} = {};
+  props.dataSource.map((city) => {
+    const py = pinyin.convertToPinyin(city);
+    const index = py[0];
+    map[index] = map[index] || [];
+    map[index].push(city);
+  })
+
+  console.log(map);
+  console.log(Object.keys(map));
+  
   const onClick = () => {
     setDialogVisible(true);
   };
