@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import './citySelect.scss';
 import { scopedClassMaker } from '../helpers/classes';
@@ -11,35 +11,41 @@ interface Props {
   dataSource: string[]
 }
 
+interface Context {
+  map: { [key: string]: string[] }
+}
+
 const sc = scopedClassMaker('xc-city-select');
+
+const CitySelectContext = createContext<Context>({map: {}});
 
 const CitySelect: React.FunctionComponent<Props> = (props) => {
   const [dialogVisible, setDialogVisible] = useState(true);
-  
-  const map: {[key: string]: string[]} = {};
+  const map: Context['map'] = {};
+
   props.dataSource.map((city) => {
     const py = pinyin.convertToPinyin(city);
     const index = py[0];
     map[index] = map[index] || [];
     map[index].push(city);
   })
-
-  console.log(map);
-  console.log(Object.keys(map));
   
   const onClick = () => {
     setDialogVisible(true);
   };
 
   return (
-    <>
+    <CitySelectContext.Provider value={{map}}>
       <div onClick={onClick}>{props.children}</div>
       {dialogVisible && <Dialog onClose={() => setDialogVisible(false)} />}
-    </>
+    </CitySelectContext.Provider>
   )
 };
 
 const Dialog: React.FunctionComponent<{onClose: ()=> void}> = (props) => {
+  const {map} = useContext(CitySelectContext);
+  const indexList = Object.keys(map).sort();
+  
   return ReactDOM.createPortal((
     <div
       className={sc('dialog')}
@@ -51,7 +57,9 @@ const Dialog: React.FunctionComponent<{onClose: ()=> void}> = (props) => {
       </header>
       <CurrentCity />
       <h2>全部城市</h2>
-      <div className="cityIndex">ABCD....</div>
+      <ol className={sc('index')}>
+        {indexList.map(a => <li key={a}>{a}</li>)}
+      </ol>
       <div className="cityList">所有城市</div>
     </div>
   ), document.body);
